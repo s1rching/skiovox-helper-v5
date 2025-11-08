@@ -1,6 +1,7 @@
+// made AM/PM Mode the only one because im too fucking retarded for reading military time (no offense soldiers)
 const TimeStyles = {
-    DEFAULT: 1,
-    NO_SECONDS: 2,
+    AM_PM: 1,
+    AM_PM_NO_SECONDS: 2,
     AM_PM: 3,
     AM_PM_NO_SECONDS: 4
 }

@@ -10,7 +10,7 @@ const BLUETOOTH_URL = "chrome://bluetooth-pairing";
 const SETTINGS_URL = "chrome://settings";
 const NEW_TAB_URL = "chrome://new-tab-page";
 const FILES_URL = "chrome://file-manager";
-const HELP_URL = "https://github.com/bypassiwastaken/skiovox-helper";
+const HELP_URL = "https://github.com/AceOfSpades1061/skiovox-helper_mv3";
 const WEBSTORE_URL = "https://chromewebstore.google.com";
 const ADDSESSION_URL = "https://accounts.google.com/signin/v2/identifier?hl=en&continue=https%3A%2F%2Fwww.google.com%2F&ec=GAlAmgQ&flowName=GlifWebSignIn&flowEntry=AddSession";
 
@@ -49,7 +49,7 @@ settings.addEventListener('click', () => {
 })
 
 theme.addEventListener('click', () => {
-    alert("The original New Tab page will now open. On that page, click the edit icon in the bottom right corner to edit your browser theme.")
+    alert("The normal New Tab page will now open. On that page, click the pencil icon in the bottom right corner to edit your browser theme.")
     chrome.tabs.create({ url: NEW_TAB_URL })
 })
 
@@ -77,7 +77,7 @@ addAccount.addEventListener('click', () => {
 })
 
 reset.addEventListener('click', () => {
-    if (confirm("Are you sure you want to reset Skiovox helper settings?")) {
+    if (confirm("Are you sure you want to reset Skiovox helper settings? Note: This will replace the current tab with the default new tab page.")) {
         localStorage.clear()
         chrome.runtime.reload()
     }

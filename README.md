@@ -1,4 +1,4 @@
-# Skiovox Helper
+# Skiovox Helper (Ported to Manifest Version 3!)
 ### The helper extension for the Skiovox exploit.
 
 ## Install
@@ -17,5 +17,3 @@ Once installed, open a new tab to see the extension's homepage.
 *Note: You can exit fullscreen by pressing ctrl+T after you've set up the shortcuts.*
 
 ![image](https://github.com/zkayns/skiovox-helper/assets/80561998/4c09893a-65a5-45da-b70b-5f3d20c27d54)
-
-If you need to install extensions with chromewebstore.google.com blocked, try [Skebstore.](https://github.com/bypassiwastaken/skebstore)

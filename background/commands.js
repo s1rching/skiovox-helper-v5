@@ -1,29 +1,31 @@
-const VIEW_SOURCE_PREFIX = "view-source:"
-const HISTORY_URL = "chrome://history"
-const DOWNLOADS_URL = "chrome://downloads"
+const VIEW_SOURCE_PREFIX = "view-source:";
+const HISTORY_URL = "chrome://history";
+const DOWNLOADS_URL = "chrome://downloads";
 
 function getRecentWindow() {
   return new Promise(resolve => {
     chrome.windows.getLastFocused({ populate: true }, resolve);
-  })
+  });
 }
 
 function cycleTabs(tabs, direction) {
-  let currentTab = tabs.find((e) => e.active);
+  const currentTab = tabs.find(e => e.active);
   if (!currentTab) return;
 
-  let index = currentTab.index + direction;
-  index = (index + tabs.length) % tabs.length // fix overflow
+  let index = (currentTab.index + direction + tabs.length) % tabs.length;
   chrome.tabs.update(tabs[index].id, { active: true });
 }
 
-async function onCommand(name, currentTab) {
-  let recentWindow = await getRecentWindow()
-  let recentTabs = recentWindow.tabs
+async function onCommand(name) {
+  const recentWindow = await getRecentWindow();
+  const recentTabs = recentWindow?.tabs || [];
 
-  // exit fullscreen
-  if (recentWindow && recentWindow.state === chrome.windows.WindowState.FULLSCREEN) {
-    chrome.windows.update(recentWindow.id, { state: chrome.windows.WindowState.MAXIMIZED })
+  // get current active tab explicitly (MV3 no longer passes it in)
+  const [currentTab] = await chrome.tabs.query({ active: true, windowId: recentWindow.id });
+
+  // exit fullscreen if needed
+  if (recentWindow && recentWindow.state === "fullscreen") {
+    chrome.windows.update(recentWindow.id, { state: "maximized" });
   }
 
   function openTab(url) {
@@ -44,16 +46,13 @@ async function onCommand(name, currentTab) {
       break;
 
     case "VIEW_SOURCE":
-      if (!currentTab) return;
-      if (currentTab.url.startsWith(VIEW_SOURCE_PREFIX)) return;
-
-      openTab(VIEW_SOURCE_PREFIX + currentTab.url);
+      if (currentTab && !currentTab.url.startsWith(VIEW_SOURCE_PREFIX)) {
+        openTab(VIEW_SOURCE_PREFIX + currentTab.url);
+      }
       break;
 
     case "CLOSE_TAB":
-      if (currentTab && currentTab.id !== chrome.tabs.TAB_ID_NONE) {
-        chrome.tabs.remove(currentTab.id);
-      }
+      if (currentTab) chrome.tabs.remove(currentTab.id);
       break;
 
     case "RESTORE_TAB":
@@ -69,45 +68,30 @@ async function onCommand(name, currentTab) {
       break;
 
     case "CLOSE_WINDOW":
-      if (recentWindow.focused) {
-        chrome.windows.remove(recentWindow.id);
-      }
+      if (recentWindow.focused) chrome.windows.remove(recentWindow.id);
       break;
 
     case "TAB_NEXT":
-      cycleTabs(recentTabs, 1)
+      cycleTabs(recentTabs, 1);
       break;
 
     case "TAB_BACK":
-      cycleTabs(recentTabs, -1)
+      cycleTabs(recentTabs, -1);
       break;
 
     case "SWITCH_WINDOWS":
-      chrome.windows.getAll((windows) => {
-        if (windows.length > 1) {
-          chrome.windows.update(recentWindow.id, { focused: false });
-        }
-      })
+      chrome.windows.getAll(windows => {
+        if (windows.length > 1) chrome.windows.update(recentWindow.id, { focused: false });
+      });
       break;
 
-    case "CTRL_1":
-    case "CTRL_2":
-    case "CTRL_3":
-    case "CTRL_4":
-    case "CTRL_5":
-    case "CTRL_6":
-    case "CTRL_7":
-    case "CTRL_8":
-      let num = Number(name.split("_")[1]);
-      let specifiedTab = recentTabs[num - 1];
-      if (!specifiedTab) return;
-
-      chrome.tabs.update(specifiedTab.id, { active: true });
-      break;
-
-    case "CTRL_9":
-      let lastTab = recentTabs[recentTabs.length - 1];
-      chrome.tabs.update(lastTab.id, { active: true });
+    default:
+      // CTRL_1 ... CTRL_9 logic
+      if (name.startsWith("CTRL_")) {
+        let num = Number(name.split("_")[1]);
+        let tab = num === 9 ? recentTabs[recentTabs.length - 1] : recentTabs[num - 1];
+        if (tab) chrome.tabs.update(tab.id, { active: true });
+      }
       break;
   }
 }
