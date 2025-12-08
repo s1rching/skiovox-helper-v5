@@ -21,6 +21,3 @@ Once you have done the instructions above, Open a new tab and it should place yo
 - Allows you to see time, date, and battery.
 
 *Note: You can exit fullscreen by pressing ctrl+T after you've set up the shortcuts.*
-
-### evidence of mod abouser on skiovox-141 🐳🐳
-[link here](https://github.com/AceOfSpades1061/skiovox-helper_mv3/tree/main/evidence)
