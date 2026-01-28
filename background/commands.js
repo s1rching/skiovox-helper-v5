@@ -34,7 +34,7 @@ async function onCommand(name) {
 
   switch (name) {
     case "NEW_TAB":
-      openTab();
+      openTab(chrome://new-tab-page/);
       break;
 
     case "ACCESS_HISTORY":
