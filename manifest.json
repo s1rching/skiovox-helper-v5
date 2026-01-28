@@ -16,6 +16,7 @@
     "ACCESS_HISTORY": { "description": "Ctrl+H" },
     "ACCESS_DOWNLOADS": { "description": "Ctrl+J" },
     "NEW_TAB": { "description": "Ctrl+T" },
+    "SKIOVOX_TAB": { "description": "Alt+Shift+T" },
     "CLOSE_TAB": { "description": "Ctrl+W" },
     "RESTORE_TAB": { "description": "Ctrl+Shift+T" },
     "NEW_WINDOW": { "description": "Ctrl+N" },
