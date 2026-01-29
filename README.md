@@ -3,7 +3,7 @@
 
 ## Install
 
-**Installation steps can be seen in the "stage 3" section on [skiovox.com](https://skiovox.com)**(this has since been taken down, use the internet archive to access the pdf)
+**Installation steps can be seen in the "stage 3" section on [skiovox.com](https://skiovox.com)** (this has since been taken down, use the internet archive to access the pdf)
 
 Once installed, click alt+shift+t to see the extension's homepage.
 
